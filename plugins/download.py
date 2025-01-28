@@ -143,16 +143,49 @@ async def uloader(client, message):
     url = message.text.split(None, 1)[0]
     typee = message.text.split(None, 1)[1]
 
-    if "playlist?list=" in url:
-        msg = await client.send_message(
-            message.chat.id, "`Processing...`", reply_to_message_id=message.message_id
-        )
+
+
+
+
+
+    if hasattr(message, 'message_id'):
+        if "playlist?list=" in url:
+            msg = await client.send_message(
+                message.chat.id, "`Processing...`", reply_to_message_id=message.message_id
+            )
+        else:
+            return await client.send_message(
+                message.chat.id,
+                "`I think this is invalid link...`",
+                reply_to_message_id=message.message_id,
+            )
     else:
-        return await client.send_message(
-            message.chat.id,
-            "`I think this is invalid link...`",
-            reply_to_message_id=message.message_id,
-        )
+        # إذا لم يكن هناك `message_id`، يمكن إرسال رسالة بدون `reply_to_message_id`
+        if "playlist?list=" in url:
+            msg = await client.send_message(
+                message.chat.id, "`Processing...`"
+            )
+        else:
+            return await client.send_message(
+                message.chat.id,
+                "`I think this is invalid link...`"
+            )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
     out_folder = f"downloads/{uuid.uuid4()}/"
     if not os.path.isdir(out_folder):
